@@ -153,8 +153,23 @@ const personGenerator = {
         const maxYear = currentYear - 18;
         const year = this.randomIntNumber(maxYear, minYear);
         const month = this.randomIntNumber(1, 12); 
-        const daysInMonth = new Date(year, month, 0).getDate();
-        const day = this.randomIntNumber(1, daysInMonth);
+        let maxDay;
+        
+        switch(month) {
+            case 2:
+                maxDay = 28;
+                break;
+            case 4:
+            case 6:
+            case 9:
+            case 11:
+                maxDay = 30;
+                break;
+            default:
+                maxDay = 31;
+        }
+        
+        const day = this.randomIntNumber(1, maxDay);
         return { year, month, day };
     },
     
