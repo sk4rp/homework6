@@ -1,0 +1,52 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #f8f9fa;
+}
+
+.container {
+    margin-top: 50px;
+}
+
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 10px 10px 0 0;
+}
+
+.card-title {
+    color: #007bff;
+}
+
+.card-body {
+    padding: 30px;
+}
+
+.btn {
+    border-radius: 20px;
+    margin-top: 15px;
+}
+
+#generateButton {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+#generateButton:hover {
+    background-color: #218838;
+    border-color: #218838;
+}
+
+#clearButton {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+#clearButton:hover {
+    background-color: #c82333;
+    border-color: #c82333;
+}
