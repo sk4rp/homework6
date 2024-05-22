@@ -1,20 +1,23 @@
 window.onload = function() {
-    // Получаем случайного пользователя
-    const initPerson = personGenerator.getPerson();
-
-    // Отображаем данные о пользователе на веб-странице
-    document.getElementById('firstNameOutput').innerText = initPerson.firstName;
-    document.getElementById('surnameOutput').innerText = initPerson.surname;
-    document.getElementById('patronymicOutput').innerText = initPerson.patronymic;
-    document.getElementById('genderOutput').innerText = initPerson.gender;
-    document.getElementById('birthYearOutput').innerText = `${initPerson.birthYear.day} ${personGenerator.getMonthText(initPerson.birthYear.month)} ${initPerson.birthYear.year}`;
-    document.getElementById('professionOutput').innerText = initPerson.profession;
-    document.getElementById('clearButton').addEventListener('click', clearData);
+    const clearButton = document.getElementById('clearButton');
+    const generateButton = document.getElementById('generateButton');
+    
+    generateButton.addEventListener('click', generateData);
+    clearButton.addEventListener('click', clearData);
 };
 
+function generateData() {
+    const newPerson = personGenerator.getPerson();
+
+    document.getElementById('firstNameOutput').innerText = newPerson.firstName;
+    document.getElementById('surnameOutput').innerText = newPerson.surname;
+    document.getElementById('patronymicOutput').innerText = newPerson.patronymic;
+    document.getElementById('genderOutput').innerText = newPerson.gender;
+    document.getElementById('birthYearOutput').innerText = `${newPerson.birthYear.day} ${personGenerator.getMonthText(newPerson.birthYear.month)} ${newPerson.birthYear.year}`;
+    document.getElementById('professionOutput').innerText = newPerson.profession;
+}
 
 function clearData() {
-    // Очистка сгенерированных данных
     document.getElementById('firstNameOutput').innerText = '';
     document.getElementById('surnameOutput').innerText = 'Генерация фамилии';
     document.getElementById('genderOutput').innerText = 'Генерация пола';
