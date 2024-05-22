@@ -1,3 +1,36 @@
+const patronymicJson = {
+    male: {
+        count: 10,
+        list: {
+            id_1: "Александрович",
+            id_2: "Максимович",
+            id_3: "Иванович",
+            id_4: "Артемович",
+            id_5: "Дмитриевич",
+            id_6: "Никитич",
+            id_7: "Михайлович",
+            id_8: "Даниилович",
+            id_9: "Егорович",
+            id_10: "Андреевич"
+        }
+    },
+    female: {
+        count: 10,
+        list: {
+            id_1: "Александровна",
+            id_2: "Максимовна",
+            id_3: "Ивановна",
+            id_4: "Артемовна",
+            id_5: "Дмитриевна",
+            id_6: "Никитична",
+            id_7: "Михайловна",
+            id_8: "Данииловна",
+            id_9: "Егоровна",
+            id_10: "Андреевна"
+        }
+    }
+};
+
 const personGenerator = {
     surnameJson: `{  
         "count": 15,
@@ -122,14 +155,31 @@ const personGenerator = {
         return this.randomIntNumber(maxYear, minYear);
     },
     
-
     // Генерация случайного пользователя
     getPerson: function(gender) {
         this.person = {};
         this.person.gender = gender || (Math.random() < 0.5 ? 'Мужчина' : 'Женщина');
         this.person.firstName = this.person.gender === 'Мужчина' ? this.randomMaleFirstName() : this.randomFemaleFirstName();
         this.person.surname = this.randomSurname(this.person.gender);
+        this.person.patronymic = this.randomPatronymic(this.person.gender, this.person.surname);
         this.person.birthYear = this.randomBirthYear();
         return this.person;
+    },
+
+    randomPatronymic: function(gender, surname) {
+        const patronymicList = gender === 'Мужчина' ? patronymicJson.male.list : patronymicJson.female.list;
+        const patronymicCountObj = patronymicJson[gender.toLowerCase()];
+        const patronymicCount = patronymicCountObj ? patronymicCountObj.count : 0;
+        const patronymicIndex = this.randomIntNumber(1, patronymicCount);
+        const patronymicId = `id_${patronymicIndex}`;
+        const patronymic = patronymicList[patronymicId];
+        if (!patronymic) {
+            console.error("Отчество не найдено.");
+            return ""; // Возвращаем пустую строку, если отчество не найдено
+        }
+        const surnameFirstLetter = surname.charAt(0).toUpperCase();
+        return patronymic.replace(/^./, surnameFirstLetter);
     }
+    
 };
+

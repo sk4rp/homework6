@@ -5,6 +5,7 @@ window.onload = function() {
     // Отображаем данные о пользователе на веб-странице
     document.getElementById('firstNameOutput').innerText = initPerson.firstName;
     document.getElementById('surnameOutput').innerText = initPerson.surname;
+    document.getElementById('patronymicOutput').innerText = initPerson.patronymic;
     document.getElementById('genderOutput').innerText = initPerson.gender;
     document.getElementById('birthYearOutput').innerText = initPerson.birthYear;
     document.getElementById('clearButton').addEventListener('click', clearData);
