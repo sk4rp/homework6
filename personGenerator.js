@@ -117,8 +117,11 @@ const personGenerator = {
     // Получение случайного года рождения
     randomBirthYear: function() {
         const currentYear = new Date().getFullYear();
-        return this.randomIntNumber(currentYear - 100, currentYear - 18);
+        const minYear = currentYear - 100;
+        const maxYear = currentYear - 18;
+        return this.randomIntNumber(maxYear, minYear);
     },
+    
 
     // Генерация случайного пользователя
     getPerson: function(gender) {
