@@ -35,7 +35,43 @@ const personGenerator = {
             "id_10": "Андрей"
         }
     }`,
+    firstNameFemaleJson: `{
+        "count": 10,
+        "list": {     
+            "id_1": "Валерия",
+            "id_2": "Лариса",
+            "id_3": "Ангелина",
+            "id_4": "Дарья",
+            "id_5": "Анастасия",
+            "id_6": "Наталья",
+            "id_7": "Марина",
+            "id_8": "Оксана",
+            "id_9": "Тамара",
+            "id_10": "Татьяна"
+        }
+    }`,
 
+    // JSON с данными о профессиях
+    professions: ["Врач", "Учитель", "Инженер", "Программист", "Дизайнер"],
+    // Массив с данными о женских фамилиях
+    surnameFemale: [
+        "Иванова", 
+        "Смирнова", 
+        "Петрова", 
+        "Кузнецова", 
+        "Васильева", 
+        "Петрова", 
+        "Михайлова", 
+        "Новикова", 
+        "Федорова", 
+        "Кравцова", 
+        "Николаева", 
+        "Семёнова", 
+        "Славин", "Степанова", 
+        "Павлова", 
+        "Александрова", 
+        "Морозов"
+    ],
     GENDER_MALE: 'Мужчина',
     GENDER_FEMALE: 'Женщина',
 
@@ -47,24 +83,50 @@ const personGenerator = {
         return obj.list[prop];
     },
 
-    randomFirstName: function() {
-
+    // Получение случайного мужского имени
+    randomMaleFirstName: function() {
         return this.randomValue(this.firstNameMaleJson);
-
     },
 
-
-     randomSurname: function() {
-
-        return this.randomValue(this.surnameJson);
-
+    // Получение случайного женского имени
+    randomFemaleFirstName: function() {
+        return this.randomValue(this.firstNameFemaleJson);
     },
 
+    // Получение случайной фамилии в зависимости от пола
+    randomSurname: function(gender) {
+        if (gender === 'Мужчина') {
+            return this.randomValue(this.surnameJson);
+        } else {
+            const index = this.randomIntNumber(0, this.surnameFemale.length - 1);
+            return this.surnameFemale[index];
+        }
+    },
 
-    getPerson: function () {
+    // Получение случайного пола
+    randomGender: function() {
+        return Math.random() < 0.5 ? this.GENDER_MALE : this.GENDER_FEMALE;
+    },
+
+    // Получение случайной профессии
+    randomProfession: function() {
+        const index = this.randomIntNumber(0, this.professions.length - 1);
+        return this.professions[index];
+    },
+
+    // Получение случайного года рождения
+    randomBirthYear: function() {
+        const currentYear = new Date().getFullYear();
+        return this.randomIntNumber(currentYear - 100, currentYear - 18);
+    },
+
+    // Генерация случайного пользователя
+    getPerson: function(gender) {
         this.person = {};
-        // this.person.gender = this.randomGender();
-        this.person.firstName = this.randomFirstName();
+        this.person.gender = gender || (Math.random() < 0.5 ? 'Мужчина' : 'Женщина');
+        this.person.firstName = this.person.gender === 'Мужчина' ? this.randomMaleFirstName() : this.randomFemaleFirstName();
+        this.person.surname = this.randomSurname(this.person.gender);
+        this.person.birthYear = this.randomBirthYear();
         return this.person;
     }
 };
