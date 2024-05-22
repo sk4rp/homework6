@@ -85,7 +85,7 @@ const personGenerator = {
     }`,
 
     // JSON с данными о профессиях
-    professions: ["Врач", "Учитель", "Инженер", "Программист", "Дизайнер"],
+    professions: ["Врач", "Учитель", "Инженер", "Программист", "Дизайнер", "Слесарь", "Солдат", "Шахтёр"],
     // Массив с данными о женских фамилиях
     surnameFemale: [
         "Иванова", 
@@ -163,7 +163,16 @@ const personGenerator = {
         this.person.surname = this.randomSurname(this.person.gender);
         this.person.patronymic = this.randomPatronymic(this.person.gender, this.person.surname);
         this.person.birthYear = this.randomBirthYear();
+        this.person.profession = this.randomProfession(this.person.gender); // Добавляем случайную профессию
         return this.person;
+    },
+
+    randomProfession: function(gender) {
+        // Определяем список профессий в зависимости от пола
+        const professionsList = gender === 'Мужчина' ? this.professions.filter(prof => !["Секретарь", "Повар", "Дворник"].includes(prof)) : this.professions.filter(prof => !["Слесарь", "Солдат", "Шахтёр"].includes(prof));
+        // Получаем случайную профессию из списка
+        const index = this.randomIntNumber(0, professionsList.length - 1);
+        return professionsList[index];
     },
 
     randomPatronymic: function(gender, surname) {

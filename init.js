@@ -8,6 +8,7 @@ window.onload = function() {
     document.getElementById('patronymicOutput').innerText = initPerson.patronymic;
     document.getElementById('genderOutput').innerText = initPerson.gender;
     document.getElementById('birthYearOutput').innerText = initPerson.birthYear;
+    document.getElementById('professionOutput').innerText = initPerson.profession;
     document.getElementById('clearButton').addEventListener('click', clearData);
 };
 
