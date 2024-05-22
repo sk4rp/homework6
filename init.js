@@ -7,4 +7,13 @@ window.onload = function() {
     document.getElementById('surnameOutput').innerText = initPerson.surname;
     document.getElementById('genderOutput').innerText = initPerson.gender;
     document.getElementById('birthYearOutput').innerText = initPerson.birthYear;
+    document.getElementById('clearButton').addEventListener('click', clearData);
 };
+
+function clearData() {
+    // Очистка сгенерированных данных
+    document.getElementById('firstNameOutput').innerText = '';
+    document.getElementById('surnameOutput').innerText = 'Генерация фамилии';
+    document.getElementById('genderOutput').innerText = 'Генерация пола';
+    document.getElementById('birthYearOutput').innerText = 'Генерация года рождения';
+}
