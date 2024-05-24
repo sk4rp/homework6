@@ -19,9 +19,9 @@ function generateData() {
 
 function clearData() {
     document.getElementById('firstNameOutput').innerText = '';
-    document.getElementById('surnameOutput').innerText = 'Генерация фамилии';
-    document.getElementById('genderOutput').innerText = 'Генерация пола';
-    document.getElementById('professionOutput').innerText = 'Генерация профессии';
-    document.getElementById('patronymicOutput').innerText = 'Генерация отчества';
-    document.getElementById('birthYearOutput').innerText = 'Генерация года рождения';
+    document.getElementById('surnameOutput').innerText = '';
+    document.getElementById('patronymicOutput').innerText = '';
+    document.getElementById('genderOutput').innerText = '';
+    document.getElementById('birthYearOutput').innerText = '';
+    document.getElementById('professionOutput').innerText = '';
 }

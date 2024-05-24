@@ -1,4 +1,5 @@
 const personGenerator = {
+    // Объекты с именами, фамилиями и отчествами
     patronymics: {
         forMale: [
             "Александрович",
@@ -77,7 +78,6 @@ const personGenerator = {
         }
     }`,
 
-    // Массив с данными о женских фамилиях
     surnameFemale: [
         "Иванова", 
         "Смирнова", 
@@ -96,6 +96,12 @@ const personGenerator = {
         "Александрова", 
         "Морозова"
     ],
+
+    professions: {
+        male: ["Врач", "Учитель", "Инженер", "Программист", "Слесарь", "Солдат", "Шахтёр"],
+        female: ["Врач", "Учитель", "Инженер", "Программист", "Дизайнер"]
+    },
+
     GENDER_MALE: 'Мужчина',
     GENDER_FEMALE: 'Женщина',
 
@@ -103,21 +109,18 @@ const personGenerator = {
 
     randomValue: function (json) {
         const obj = JSON.parse(json);
-        const prop = `id_${this.randomIntNumber(obj.count, 1)}`;  // this = personGenerator
+        const prop = `id_${this.randomIntNumber(obj.count, 1)}`;
         return obj.list[prop];
     },
 
-    // Получение случайного мужского имени
     randomMaleFirstName: function() {
         return this.randomValue(this.firstNameMaleJson);
     },
 
-    // Получение случайного женского имени
     randomFemaleFirstName: function() {
         return this.randomValue(this.firstNameFemaleJson);
     },
 
-    // Получение случайной фамилии в зависимости от пола
     randomSurname: function(gender) {
         if (gender === 'Мужчина') {
             return this.randomValue(this.surnameJson);
@@ -127,34 +130,24 @@ const personGenerator = {
         }
     },
 
-    // Получение случайного пола
     randomGender: function() {
         return Math.random() < 0.5 ? this.GENDER_MALE : this.GENDER_FEMALE;
     },
 
-    // Получение случайной профессии
     randomProfession: function(gender) {
-        if (gender === 'Мужчина') {
-            const maleProfessions = ["Врач", "Учитель", "Инженер", "Программист", "Слесарь", "Солдат", "Шахтёр"];
-            const index = this.randomIntNumber(0, maleProfessions.length - 1);
-            return maleProfessions[index];
-        } else {
-            const femaleProfessions = ["Врач", "Учитель", "Инженер", "Программист", "Дизайнер"];
-            const index = this.randomIntNumber(0, femaleProfessions.length - 1);
-            return femaleProfessions[index];
-        }
+        const professions = gender === 'Мужчина' ? this.professions.male : this.professions.female;
+        const index = this.randomIntNumber(professions.length - 1);
+        return professions[index];
     },
-    
 
-    // Получение случайного года рождения
     randomBirthYear: function() {
         const currentYear = new Date().getFullYear();
         const minYear = currentYear - 100;
         const maxYear = currentYear - 18;
         const year = this.randomIntNumber(maxYear, minYear);
-        const month = this.randomIntNumber(1, 12); 
+        const month = this.randomIntNumber(1, 12);
         let maxDay;
-        
+
         switch(month) {
             case 2:
                 maxDay = 28;
@@ -168,38 +161,68 @@ const personGenerator = {
             default:
                 maxDay = 31;
         }
-        
+
         const day = this.randomIntNumber(1, maxDay);
         return { year, month, day };
     },
-    
+
     randomPatronymic: function(gender) {
-        let patronymicList;
-        if (gender === 'Мужчина') {
-            patronymicList = this.patronymics.forMale;
-        } else {
-            patronymicList = this.patronymics.forFemale;
-        }
-        
-        const patronymicIndex = this.randomIntNumber(0, patronymicList.length - 1);
-        return patronymicList[patronymicIndex];
-    },
+        const firstName = this.randomMaleFirstName();
+        let baseName;
     
+        // Обработка базового имени в зависимости от окончания
+        if (firstName === 'Артем') {
+            baseName = 'Артем';
+        } else if (firstName.endsWith('й') || firstName.endsWith('ь')) {
+            baseName = firstName.slice(0, -1) + 'е';
+        } else if (firstName.endsWith('а') || firstName.endsWith('я')) {
+            baseName = firstName.slice(0, -1);
+        } else {
+            baseName = firstName;
+        }
+    
+        if (gender === 'Мужчина') {
+            if (firstName === 'Никита') {
+                return 'Никитич';
+            } else if (firstName === 'Максим') {
+                return 'Максимович';
+            } else if (firstName === 'Андрей') {
+                return 'Андреевич';
+            } else if (firstName === 'Дмитрий') {
+                return 'Дмитриевич';
+            } else {
+                return baseName + 'ович';
+            }
+        } else {
+            if (firstName === 'Никита') {
+                return 'Никитична';
+            } else if (firstName === 'Максим') {
+                return 'Максимовна';
+            } else if (firstName === 'Михаил'){
+                return 'Михаиловна';
+            } else if (firstName === 'Андрей') {
+                return 'Андреевна';
+            } else if (firstName === 'Дмитрий') {
+                return 'Дмитриевна';
+            }else {
+                return baseName + 'овна';
+            }
+        }
+    },
+
     getMonthText: function(month) {
         const months = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
         return months[month - 1];
     },
 
-    // Генерация случайного пользователя
     getPerson: function(gender, birthMonth) {
         this.person = {};
         this.person.gender = gender || (Math.random() < 0.5 ? 'Мужчина' : 'Женщина');
         this.person.firstName = this.person.gender === 'Мужчина' ? this.randomMaleFirstName() : this.randomFemaleFirstName();
         this.person.surname = this.randomSurname(this.person.gender);
-        this.person.patronymic = this.randomPatronymic(this.person.gender, this.person.surname, birthMonth);
+        this.person.patronymic = this.randomPatronymic(this.person.gender);
         this.person.birthYear = this.randomBirthYear();
         this.person.profession = this.randomProfession(this.person.gender);
         return this.person;
     },
 };
-
